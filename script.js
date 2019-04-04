@@ -1,3 +1,28 @@
+function connectWebSocket()
+{
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt); return false; };
+    websocket.onerror = function(evt) { onError(evt) };
+}
+
+function onOpen(evt) {
+    console.log("CONNECTED");
+}
+
+function onClose(evt) {
+    console.log("DISCONNECTED")
+}
+
+function onMessage(evt) {
+    console.log(evt.data)
+}
+
+function onError(evt) {
+    console.log("ERROR: " + evt.data)
+}
+
 function httpGet(theUrl)
 {
     var xmlHttp = new XMLHttpRequest();
@@ -28,6 +53,10 @@ function background(Scolor) {
 
 function main() {
 
+
+  var wsUri = prompt();
+  console.log("Server: " + wsUri);
+  connectWebSocket();
 
   Ssettings = httpGet("settings.txt").split(/\r?\n/);
   for(var i = 0; i < Ssettings.length; i++) {
