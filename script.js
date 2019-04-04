@@ -1,12 +1,3 @@
-function connectWebSocket()
-{
-    websocket = new WebSocket(wsUri);
-    websocket.onopen = function(evt) { onOpen(evt) };
-    websocket.onclose = function(evt) { onClose(evt) };
-    websocket.onmessage = function(evt) { onMessage(evt); return false; };
-    websocket.onerror = function(evt) { onError(evt) };
-}
-
 function onOpen(evt) {
     console.log("CONNECTED");
 }
@@ -56,6 +47,15 @@ function main() {
 
   var wsUri = prompt();
   console.log("Server: " + wsUri);
+function connectWebSocket()
+{ 
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt); return false; };
+    websocket.onerror = function(evt) { onError(evt) };
+}
+
   connectWebSocket();
 
   Ssettings = httpGet("settings.txt").split(/\r?\n/);

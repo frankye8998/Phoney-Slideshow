@@ -7,21 +7,23 @@ import socket
 HOST = socket.gethostbyname(socket.gethostname())
 PORT = 8181
 
+USERS = set() 
+
 logging.basicConfig()
 
 async def register(websocket):
     USERS.add(websocket)
-    await notify_users()
-
+    print("REGISTERED!")
 
 async def unregister(websocket):
     USERS.remove(websocket)
-    await notify_users()
+    print("UNREGISTERED!")
 
 
 async def main(websocket, path):
     await register(websocket)
     try:
+
         async for message in websocket:
             print(message) # HELLO WORLD
     finally:
