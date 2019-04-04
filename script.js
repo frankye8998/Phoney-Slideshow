@@ -29,9 +29,9 @@ function background(Scolor) {
 function main() {
 
 
-settings = httpGet("settings.txt").split(/\r?\n/);
-for(var i = 0; i < settings.length; i++) {
-  arguments = settings[i].split(" ");
+Ssettings = httpGet("settings.txt").split(/\r?\n/);
+for(var i = 0; i < Ssettings.length; i++) {
+  arguments = Ssettings[i].split(" ");
   switch (arguments[0]) {
     case "title":
       title(arguments.slice(1));
