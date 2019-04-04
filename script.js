@@ -14,7 +14,7 @@ function title(Stitle) {
   return 1;
 }
 
-function redirect(Slocation) { 
+function redirect(Slocation) {
   window.location.href = Slocation;
 }
 
@@ -29,9 +29,9 @@ function background(Scolor) {
 function main() {
 
 
-Ssettings = httpGet("settings.txt").split(/\r?\n/);
-for(var i = 0; i < Ssettings.length; i++) {
-  arguments = Ssettings[i].split(" ");
+settings = httpGet("settings.txt").split(/\r?\n/);
+for(var i = 0; i < settings.length; i++) {
+  arguments = settings[i].split(" ");
   switch (arguments[0]) {
     case "title":
       title(arguments.slice(1));
@@ -44,5 +44,3 @@ for(var i = 0; i < Ssettings.length; i++) {
 }
 
 window.onload = main;
-
-
