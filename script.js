@@ -20,10 +20,10 @@ function redirect(Slocation) {
 
 function background(Scolor) {
   document.body.style.backgroundColor = Scolor;
-  if(document.body.style.backgroundColor != Scolor) {
-    return 1;
+  if(document.body.style.backgroundColor == Scolor) {
+    return 0;
   }
-  return 0;
+  return 1;
 }
 
 function main() {
