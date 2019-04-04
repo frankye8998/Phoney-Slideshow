@@ -3,8 +3,12 @@ import json
 import logging
 import websockets
 import socket
+import sys
 
-HOST = socket.gethostbyname(socket.gethostname())
+try:
+    HOST = sys.argv[1]
+except:
+    HOST = socket.gethostbyname(socket.gethostname())
 PORT = 8181
 
 USERS = set() 
@@ -12,6 +16,8 @@ USERS = set()
 logging.basicConfig()
 
 async def register(websocket):
+    if len(USERS) > 1:
+      print("More than 1!")
     USERS.add(websocket)
     print("REGISTERED!")
 
