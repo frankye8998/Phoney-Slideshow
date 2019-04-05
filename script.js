@@ -63,10 +63,10 @@ function connectWebSocket()
     arguments = Ssettings[i].split(" ");
     switch (arguments[0]) {
       case "title":
-        title(arguments.slice(1));
+        title(arguments.slice(1).join(" "));
         break;
       case "background-colour":
-        background(arguments.slice(1));
+        background(arguments.slice(1).join(" "));
         break;
     }
   }
