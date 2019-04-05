@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function main() {
+
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = this.length - 1; i >= 0; i--) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}
+
+document.getElementById("begin").remove();
+
+function preloadAudio(url) {
+    var audio = new Audio();
+    audio.addEventListener('canplaythrough', loadedAudio, false);
+    audio.src = url;
+}
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+var player = document.getElementById('player');
+function play(index) {
+    player.src = audioFiles[index];
+    player.play();
+}
+
+audioFiles = httpGet("settings.txt").split(/\r?\n/).filter(Boolean);
+
+var loaded = 0;
+function loadedAudio() {
+    // this will be called every time an audio file is loaded
+    // we keep track of the loaded files vs the requested files
+    loaded++;
+    document.getElementById("loaded-counter").innerText = loaded + "/" + audioFiles.length;
+    if (loaded == audioFiles.length){
+    	// all have loaded
+    	init();
+    }
+}
+
+function init() {
+    // do your stuff here, audio has been loaded
+    // for example, play all files one after the other
+    var i = 0;
+    // once the player ends, play the next one
+    player.onended = function() {
+    	i++;
+        if (i >= audioFiles.length) {
+            // end 
+            return;
+        }
+    	play(i);
+    };
+    // play the first file
+    play(i);
+}
+
+for (var i in audioFiles) {
+    preloadAudio(audioFiles[i]);
+}
+}
+
+
+
+</script>
+</head>
+<body>
+  <audio id="player"></audio>
+  <center>
+    <h1 id="loaded-counter"></h1>
+    <button onclick="main()" id="begin">Begin</button>
+  </center>
+</body>	
+</html>
+
