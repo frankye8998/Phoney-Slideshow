@@ -17,7 +17,7 @@ function onMessage(evt) {
     else {
       console.log("Command not recognized!");
     }
-    
+
 }
 
 function onError(evt) {
@@ -57,14 +57,13 @@ function main() {
 
   var wsUri = prompt();
   console.log("Server: " + wsUri);
-function connectWebSocket()
-{ 
-    websocket = new WebSocket(wsUri);
-    websocket.onopen = function(evt) { onOpen(evt) };
-    websocket.onclose = function(evt) { onClose(evt) };
-    websocket.onmessage = function(evt) { onMessage(evt); return false; };
-    websocket.onerror = function(evt) { onError(evt) };
-}
+  function connectWebSocket(){
+      websocket = new WebSocket(wsUri);
+      websocket.onopen = function(evt) { onOpen(evt) };
+      websocket.onclose = function(evt) { onClose(evt) };
+      websocket.onmessage = function(evt) { onMessage(evt); return false; };
+      websocket.onerror = function(evt) { onError(evt) };
+  }
 
   connectWebSocket();
 
