@@ -3,15 +3,25 @@ function onOpen(evt) {
 }
 
 function onClose(evt) {
-    console.log("DISCONNECTED")
+    console.log("DISCONNECTED");
 }
 
 function onMessage(evt) {
-    console.log(evt.data)
+    console.log(evt.data);
+    if (evt.data == ">") {
+      next();
+    }
+    else if (evt.data == "R") {
+      restart();
+    }
+    else {
+      console.log("Command not recognized!");
+    }
+    
 }
 
 function onError(evt) {
-    console.log("ERROR: " + evt.data)
+    console.log("ERROR: " + evt.data);
 }
 
 function httpGet(theUrl)
