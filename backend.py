@@ -4,6 +4,7 @@ import logging
 import websockets
 import socket
 import sys
+import time
 
 try:
     HOST = sys.argv[1]
@@ -16,8 +17,6 @@ USERS = set()
 logging.basicConfig()
 
 async def register(websocket):
-    if len(USERS) > 1:
-      print("More than 1!")
     USERS.add(websocket)
     print("REGISTERED!")
 
@@ -31,7 +30,8 @@ async def main(websocket, path):
     try:
 
         async for message in websocket:
-            print(message) # HELLO WORLD
+            print(message) 
+            await asyncio.wait([user.send(message) for user in USERS])
     finally:
         await unregister(websocket)
 
