@@ -11,17 +11,19 @@
 .song-text {
   font-family: 'Comfortaa';
   text-align: center;
-  font-size: 3.5em;
+  font-size: 4.5em;
   white-space: nowrap;
 }
 .song-text-div {
   height: 20%;
   display:block;
+  margin-top: 15%;
+  margin-bottom:35%;
 }
 /* Three image containers (use 25% for four, and 50% for two, etc) */
 .column {
   float: left;
-  width: 33.33%;
+  width: 33.33333%;
 }
 
 /* Clear floats after image containers */
@@ -29,6 +31,7 @@
   content: "";
   clear: both;
   display: table;
+  margin-bottom: 30%;
 }
 #forward {
   -webkit-transform: rotate(180deg);     /* Chrome and other webkit browsers */
@@ -39,6 +42,44 @@
 
   /* IE8 and below */
   filter: progid:DXImageTransform.Microsoft.Matrix(M11=-1, M12=0, M21=0, M22=-1, DX=0, DY=0, SizingMethod='auto expand');
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3vh;
+  border-radius: 1px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10vw;
+  height: 5.5vh;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 10vw;
+  height: 5.5vh;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -57,6 +98,19 @@
     <img id="forward" src="/static/back.svg" alt="Mountains" style="width:100%">
   </div>
 </div>
+<div class="slidecontainer">
+  <p id="demo" style="text-align:center;font-family:Comfortaa;font-size:5em;"></p>
+  <input type="range" min="0" max="100" value="50" class="slider" id="myRange">
+</div>
+<script>
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+</script>
 
 </body>
 </html>
