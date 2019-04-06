@@ -3,7 +3,40 @@
 <head>
 <script>
 function main() {
+function onOpen(evt) {
+    log("CONNECTED");
+}
 
+function onClose(evt) {
+    log("DISCONNECTED");
+}
+
+function onMessage(evt) {
+    log("WEBSOCKET: " + evt.data);
+    arguments = evt.data.split(" ");
+    if (arguments[0] == "play") {
+      play(arguments[1]);
+    }
+    if (arguments[0] == "volume") {
+      player.volume = arguments[1]/100;
+    }
+    
+}
+
+function onError(evt) {
+    log("ERROR: " + evt.data);
+}
+
+  function connectWebSocket(){
+      websocket = new WebSocket("ws://" + window.location.hostname + ":8181");
+      websocket.onopen = function(evt) { onOpen(evt) };
+      websocket.onclose = function(evt) { onClose(evt) };
+      websocket.onmessage = function(evt) { onMessage(evt); return false; };
+      websocket.onerror = function(evt) { onError(evt) };
+  }
+function log(message) {
+  document.getElementById("log").innerText += message + "\n";
+}
 Element.prototype.remove = function() {
     this.parentElement.removeChild(this);
 }
@@ -22,8 +55,7 @@ function preloadAudio(url) {
     audio.addEventListener('canplaythrough', loadedAudio, false);
     audio.src = url;
 }
-function httpGet(theUrl)
-{
+function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
@@ -32,27 +64,31 @@ function httpGet(theUrl)
 
 var player = document.getElementById('player');
 function play(index) {
-    player.src = audioFiles[index];
+    player.src = audioFiles[index].split(" ")[0];
     player.play();
 }
 
-audioFiles = httpGet("settings.txt").split(/\r?\n/).filter(Boolean);
 
+audioFiles = httpGet("settings.txt").split(/\r?\n/).filter(Boolean);
+console.log(audioFiles)
+log("Tracks found: " + audioFiles);
 var loaded = 0;
 function loadedAudio() {
     // this will be called every time an audio file is loaded
     // we keep track of the loaded files vs the requested files
     loaded++;
-    document.getElementById("loaded-counter").innerText = loaded + "/" + audioFiles.length;
+    log("Loaded track " + loaded.toString())
     if (loaded == audioFiles.length){
-    	// all have loaded
-    	init();
+        log("Done loading")
+        init();
     }
 }
 
 function init() {
     // do your stuff here, audio has been loaded
     // for example, play all files one after the other
+    connectWebSocket();
+    log("Connecting to websocket server at " + window.location.hostname + ":8181");
     var i = 0;
     // once the player ends, play the next one
     player.onended = function() {
@@ -68,7 +104,7 @@ function init() {
 }
 
 for (var i in audioFiles) {
-    preloadAudio(audioFiles[i]);
+    preloadAudio(audioFiles[i].split(" ")[0]);
 }
 }
 
@@ -82,6 +118,7 @@ for (var i in audioFiles) {
     <h1 id="loaded-counter"></h1>
     <button onclick="main()" id="begin">Begin</button>
   </center>
+<pre id="log"></pre>
 </body>	
 </html>
 
