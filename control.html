@@ -1,4 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+<style>
+.play-pause {
+  margin-left: auto;
+  margin-right: auto;
+  display:block;
+}
+.song-text {
+  font-family: 'Comfortaa';
+  text-align: center;
+  font-size: 3.5em;
+  white-space: nowrap;
+}
+.song-text-div {
+  height: 20%;
+  display:block;
+}
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+#forward {
+  -webkit-transform: rotate(180deg);     /* Chrome and other webkit browsers */
+  -moz-transform: rotate(180deg);        /* FF */
+  -o-transform: rotate(180deg);          /* Opera */
+  -ms-transform: rotate(180deg);         /* IE9 */
+  transform: rotate(180deg);             /* W3C compliant browsers */
+
+  /* IE8 and below */
+  filter: progid:DXImageTransform.Microsoft.Matrix(M11=-1, M12=0, M21=0, M22=-1, DX=0, DY=0, SizingMethod='auto expand');
+}
+</style>
+</head>
+<body>
+  <div class="song-text-div">
+    <p class="song-text">Hello World</p>
+  </div>
+<div class="row">
+  <div class="column">
+    <img src="/static/back.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="/static/play_pause.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column">
+    <img id="forward" src="/static/back.svg" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+</body>
+</html>
+
 
