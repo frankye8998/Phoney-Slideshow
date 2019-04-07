@@ -100,10 +100,10 @@
   </div>
 <div class="row">
   <div class="column2">
-    <img id="play" src="/static/play.svg" alt="Snow" style="width:100%">
+    <img id="play" src="/static/play.svg" alt="Play" style="width:100%">
   </div>
   <div class="column2">
-    <img src="/static/stop.svg" alt="Mountains" style="width:100%">
+    <img src="/static/stop.svg" alt="Stop" style="width:100%">
   </div>
   <div class="column2">
     <img src="/static/stop.svg" alt="Restart" style="width:100%">
@@ -111,13 +111,13 @@
 </div>
 <div class="row">
   <div class="column">
-    <img id="backward" src="/static/back.svg" alt="Snow" style="width:100%">
+    <img id="backward" src="/static/back.svg" alt="Back" style="width:100%">
   </div>
   <div class="column" id="pause-div">
-   <img id="pause" src="/static/pause.svg" alt="Forest" style="width:100%">
+   <img id="pause" src="/static/pause.svg" alt="Pause" style="width:100%">
   </div>
   <div class="column">
-    <img id="forward" src="/static/back.svg" alt="Mountains" style="width:100%">
+    <img id="forward" src="/static/back.svg" alt="Forward" style="width:100%">
   </div>
 </div>
 
@@ -170,7 +170,7 @@ function onClose(evt) {
 }
 
 function onMessage(evt) {
-    console.log(evt.data);         
+    console.log(evt.data);
     if (evt.data == "audio connected") {
       init();
     }
@@ -200,7 +200,7 @@ function resume() {
 
 function pause() {
   websocket.send("pause");
-}   
+}
 
 connectWebSocket();
 
@@ -217,5 +217,3 @@ slider.oninput = function() {
 
 </body>
 </html>
-
-
