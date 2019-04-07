@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
 <style>
 .play-pause {
@@ -11,28 +13,37 @@
 .song-text {
   font-family: 'Comfortaa';
   text-align: center;
-  font-size: 4.5em;
+  font-size: 2.5em;
   white-space: nowrap;
+  overflow: hidden;
 }
 .song-text-div {
   height: 20%;
   display:block;
   margin-top: 15%;
-  margin-bottom:35%;
+  margin-bottom:10%;
 }
 /* Three image containers (use 25% for four, and 50% for two, etc) */
 .column {
   float: left;
   width: 33.33333%;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+}
+
+.column2 {
+  float: left;
+  width: 33.33333%;
 }
 
 /* Clear floats after image containers */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-  margin-bottom: 30%;
-}
+//.row::after {
+//  content: "";
+//  clear: both;
+//  display: table;
+//  margin-bottom: 30%;
+//}
 #forward {
   -webkit-transform: rotate(180deg);     /* Chrome and other webkit browsers */
   -moz-transform: rotate(180deg);        /* FF */
@@ -85,30 +96,122 @@
 </head>
 <body>
   <div class="song-text-div">
-    <p class="song-text">Hello World</p>
+    <p class="song-text" id="song-text">Loading...</p>
   </div>
 <div class="row">
-  <div class="column">
-    <img src="/static/back.svg" alt="Snow" style="width:100%">
+  <div class="column2">
+    <img id="play" src="/static/play.svg" alt="Snow" style="width:100%">
   </div>
+  <div class="column2">
+    <img src="/static/stop.svg" alt="Mountains" style="width:100%">
+  </div>
+  <div class="column2">
+    <img src="/static/stop.svg" alt="Restart" style="width:100%">
+  </div>
+</div>
+<div class="row">
   <div class="column">
-    <img src="/static/play_pause.svg" alt="Forest" style="width:100%">
+    <img id="backward" src="/static/back.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" id="pause-div">
+   <img id="pause" src="/static/pause.svg" alt="Forest" style="width:100%">
   </div>
   <div class="column">
     <img id="forward" src="/static/back.svg" alt="Mountains" style="width:100%">
   </div>
 </div>
+
 <div class="slidecontainer">
-  <p id="demo" style="text-align:center;font-family:Comfortaa;font-size:5em;"></p>
+  <p id="demo" style="text-align:center;font-family:Comfortaa;font-size:2em;"></p>
   <input type="range" min="0" max="100" value="50" class="slider" id="myRange">
 </div>
 <script>
+function httpGet(theUrl) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+audioFiles = httpGet("settings.txt").split(/\r?\n/).filter(Boolean);
+unPlayed = false;
+current = 0;
+oldCurrent = 1;
+function move() {
+      if (current == audioFiles.length - 1) {
+        current = 0;
+      } else {
+        current ++;
+      }
+  document.getElementById("song-text").innerText = audioFiles[current].split(" ").slice(1).join(" ");
+}
+
+function move2() {
+  if (current == 0) {
+    current = audioFiles.length - 1;
+  } else {
+    current--;
+  }
+  document.getElementById("song-text").innerText = audioFiles[current].split(" ").slice(1).join(" ");
+}
+function init() {
+    document.getElementById("song-text").innerText = audioFiles[0].split(" ").slice(1).join(" ");
+    document.getElementById("pause-div").onclick = pause;
+    document.getElementById("play").onclick = resume;
+    document.getElementById("forward").onclick = move;
+    document.getElementById("backward").onclick = move2;
+}
+function onOpen(evt) {
+    websocket.send("controller connected");
+    console.log("CONNECTED");
+}
+
+function onClose(evt) {
+    console.log("DISCONNECTED");
+}
+
+function onMessage(evt) {
+    console.log(evt.data);         
+    if (evt.data == "audio connected") {
+      init();
+    }
+}
+
+function onError(evt) {
+    console.log("ERROR: " + evt.data);
+}
+  function connectWebSocket(){
+      websocket = new WebSocket("ws://" + window.location.hostname + ":8181");
+      websocket.onopen = function(evt) { onOpen(evt) };
+      websocket.onclose = function(evt) { onClose(evt) };
+      websocket.onmessage = function(evt) { onMessage(evt); return false; };
+      websocket.onerror = function(evt) { onError(evt) };
+  }
+
+paused = false;
+function resume() {
+  if (current == oldCurrent) {
+    websocket.send("resume");
+  } else {
+    websocket.send("play " + current.toString());
+ }
+  oldCurrent = current;
+}
+
+
+function pause() {
+  websocket.send("pause");
+}   
+
+connectWebSocket();
+
+
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
 output.innerHTML = slider.value;
 
 slider.oninput = function() {
   output.innerHTML = this.value;
+  websocket.send("volume " + this.value);
 }
 </script>
 

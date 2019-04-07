@@ -5,6 +5,7 @@
 function main() {
 function onOpen(evt) {
     log("CONNECTED");
+    websocket.send("audio connected");
 }
 
 function onClose(evt) {
@@ -14,13 +15,21 @@ function onClose(evt) {
 function onMessage(evt) {
     log("WEBSOCKET: " + evt.data);
     arguments = evt.data.split(" ");
+    if (evt.data == "controller connected") {
+      websocket.send("audio connected");
+    }
     if (arguments[0] == "play") {
       play(arguments[1]);
     }
     if (arguments[0] == "volume") {
       player.volume = arguments[1]/100;
     }
-    
+    if (arguments[0] == "pause") {
+      player.pause();
+    }
+    if (arguments[0] == "resume") {
+      player.play();
+    }         
 }
 
 function onError(evt) {
@@ -89,18 +98,6 @@ function init() {
     // for example, play all files one after the other
     connectWebSocket();
     log("Connecting to websocket server at " + window.location.hostname + ":8181");
-    var i = 0;
-    // once the player ends, play the next one
-    player.onended = function() {
-    	i++;
-        if (i >= audioFiles.length) {
-            // end 
-            return;
-        }
-    	play(i);
-    };
-    // play the first file
-    play(i);
 }
 
 for (var i in audioFiles) {
