@@ -12,7 +12,7 @@ except:
     HOST = socket.gethostbyname(socket.gethostname())
 PORT = 8181
 
-USERS = set() 
+USERS = set()
 
 logging.basicConfig()
 
@@ -30,7 +30,7 @@ async def main(websocket, path):
     try:
 
         async for message in websocket:
-            print(message) 
+            print(message)
             await asyncio.wait([user.send(message) for user in USERS])
     finally:
         await unregister(websocket)
@@ -41,5 +41,3 @@ asyncio.get_event_loop().run_until_complete(
     websockets.serve(main, HOST, PORT))
 
 asyncio.get_event_loop().run_forever()
-
-
