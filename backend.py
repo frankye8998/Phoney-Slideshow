@@ -24,7 +24,6 @@ async def unregister(websocket):
     USERS.remove(websocket)
     print("UNREGISTERED!")
 
-
 async def main(websocket, path):
     await register(websocket)
     try:

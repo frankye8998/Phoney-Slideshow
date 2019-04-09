@@ -178,6 +178,7 @@
     function onError(evt) {
       console.log("ERROR: " + evt.data);
     }
+
     function connectWebSocket(){
       websocket = new WebSocket("ws://" + window.location.hostname + ":8181");
       websocket.onopen = function(evt) { onOpen(evt) };
@@ -196,13 +197,11 @@
       oldCurrent = current;
     }
 
-
     function pause() {
       websocket.send("pause");
     }
 
     connectWebSocket();
-
 
     var slider = document.getElementById("myRange");
     var output = document.getElementById("demo");
