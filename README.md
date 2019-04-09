@@ -8,8 +8,7 @@ git clone https://github.com/frankye8998/Phoney-Slideshow
 ```
 Otherwise, you can download one of our releases [here](https://github.com/frankye8998/Phoney-Slideshow/releases).
 
-The following dependencies are required:
-
+### Dependencies
 * [PHP](https://www.php.net/)
 * [Python 3](https://www.python.org/)
   * [websockets](https://github.com/aaugustin/websockets)  
