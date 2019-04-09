@@ -10,8 +10,8 @@ Otherwise, you can download one of our releases [here](https://github.com/franky
 
 The following dependencies are required:
 
-* PHP
-* Python 3
+* [PHP](https://www.php.net/)
+* [Python 3](https://www.python.org/)
   * [websockets](https://github.com/aaugustin/websockets)  
 
 ## Running
