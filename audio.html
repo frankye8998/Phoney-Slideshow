@@ -72,6 +72,9 @@ function httpGet(theUrl) {
 }
 
 var player = document.getElementById('player');
+player.onended = function() {
+  websocket.send("ended");
+}
 function play(index) {
     player.src = audioFiles[index].split(" ")[0];
     player.play();

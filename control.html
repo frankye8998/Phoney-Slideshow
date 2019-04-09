@@ -133,7 +133,6 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 audioFiles = httpGet("settings.txt").split(/\r?\n/).filter(Boolean);
-unPlayed = false;
 current = 0;
 oldCurrent = 1;
 function move() {
