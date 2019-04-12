@@ -1,4 +1,4 @@
-# Phoney-Slideshow
+# Phoney Slideshow
 Control slideshow audio on your phone!
 
 ## Installing
