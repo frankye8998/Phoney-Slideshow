@@ -1,5 +1,5 @@
 # Phoney Slideshow
-Control slideshow audio on your phone!
+Control slideshow audio playing on any browser on another device from your phone!
 
 ## Installing
 If you have git installed, you can use:
@@ -21,4 +21,4 @@ Open two terminals and navigate both to `Phoney-Slideshow`. Run the following tw
 ```
 python backend.py
 ```
-Please note that `python3` should be used instead of `python` if multiple versions of Python are intalled.
+Please note that `python3` should be used instead of `python` if multiple versions of Python are installed.
